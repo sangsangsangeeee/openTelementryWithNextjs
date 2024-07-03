@@ -1,0 +1,34 @@
+# config file version
+apiVersion: 1
+
+# list of datasources to insert/update depending
+# what's available in the database
+datasources:
+  # <string, required> name of the datasource. Required
+  - uid: tempo
+    orgId: 1
+    name: Tempo
+    type: tempo
+    typeName: Tempo
+    access: proxy
+    url: http://grafana-tempo
+    # http://grafana-tempo:3200
+    password: ""
+    user: ""
+    database: ""
+    basicAuth: false
+    isDefault: false
+    jsonData:
+      nodeGraph:
+        enabled: true
+      search:
+        hide: false
+      # tracesToLogs:
+      #   datasourceUid: loki
+      #   filterBySpanID: false
+      #   filterByTraceID: true
+      #   mapTagNamesEnabled: false
+      #   tags:
+      #     - compose_service
+    readOnly: false
+    editable: true

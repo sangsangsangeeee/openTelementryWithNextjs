@@ -1,0 +1,33 @@
+server:
+  http_listen_port: 3200
+
+distributor:
+  receivers:
+    jaeger:
+      protocols:
+        grpc:
+        thrift_binary:
+        thrift_compact:
+        thrift_http:
+    otlp:
+      protocols:
+        grpc:
+        http:
+
+ingester:
+  lifecycler:
+    ring:
+      kvstore:
+        store: inmemory
+
+querier:
+  frontend_worker:
+    frontend_address: frontend:9095
+  search_enabled: true
+
+query_frontend:
+  max_outstanding_per_tenant: 100
+
+compactor:
+  compaction:
+    block_retention: 48h

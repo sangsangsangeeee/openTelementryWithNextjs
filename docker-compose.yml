@@ -1,0 +1,50 @@
+services:
+  nextjs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+
+  # app:
+  #   container_name: app
+  #   hostname : app
+  #   build:
+  #     context: ../
+  #   environment:
+  #     - OTEL_METRICS_EXPORTER=none
+  #     - OTEL_TRACES_EXPORTER=otlp
+  #     - OTEL_EXPORTER_OTLP_ENDPOINT=http://host.docker.internal:4317
+  #     - OTEL_RESOURCE_ATTRIBUTES=service.name=service:app,compose_service=service:app
+  #   ports:
+  #     - "8080:8080"
+
+  grafana:
+    image: grafana/grafana:9.5.2
+    container_name: grafana
+    hostname: grafana
+    ports:
+      - "3100:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=1234
+      - GF_SECURITY_ADMIN_USER=admin
+    volumes:
+      - ./etc/grafana/:/etc/grafana/provisioning/datasources
+
+  tempo:
+    image: grafana/tempo:2.2.2
+    container_name: grafana-tempo
+    hostname: grafana-tempo
+    command: -config.file=/etc/tempo.yaml
+    volumes:
+      - ./etc/tempo/tempo.yaml:/etc/tempo.yaml
+    ports:
+      - "3200:3200" # tempo
+      - "9095:9095" # tempo grpc
+      - "4317:4317" # otlp grpc
+      - "4318:4318" # otlp http
+
+volumes:
+  grafana-storage:
