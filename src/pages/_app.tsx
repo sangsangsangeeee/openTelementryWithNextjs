@@ -14,11 +14,11 @@ declare global {
   }
 }
 
-if (typeof window !== "undefined") {
-  const collector = getCookie("otelCollectorUrl")?.toString() || "";
+// if (typeof window !== "undefined") {
+//   const collector = getCookie("otelCollectorUrl")?.toString() || "";
 
-  FrontendTracer(collector);
-}
+//   FrontendTracer(collector);
+// }
 
 export default function App({ Component, pageProps }: AppProps) {
   return <Component {...pageProps} />;
