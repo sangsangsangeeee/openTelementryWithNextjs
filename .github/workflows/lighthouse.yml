@@ -30,16 +30,14 @@ jobs:
 
       - name: record lighthouse report
         id: format_lighthouse
-        uses: actions/github-script@v3
+        uses: actions/github-script@v7
         with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
 
             const fs = require("fs");
 
             const results = JSON.parse(fs.readFileSync("./lhci_reports/manifest.json"));
-
-            console.info("resuls", results);
 
             let comments = "";
 
