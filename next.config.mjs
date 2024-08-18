@@ -18,6 +18,7 @@ const nextConfig = {
   experimental: {
     instrumentationHook: true,
   },
+  distDir: "build",
   env: {
     AD_SERVICE_ADDR,
     CART_SERVICE_ADDR,

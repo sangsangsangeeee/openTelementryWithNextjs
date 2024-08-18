@@ -1,7 +1,6 @@
 module.exports = {
   ci: {
     collect: {
-      staticDistDir: "./build",
       startServerCommand: "npx npm run start",
       // startServerCommand: pnpm dev -> 서커 켜는 명령어
       url: ["http://localhost:3000"],
