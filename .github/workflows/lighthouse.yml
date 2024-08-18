@@ -38,7 +38,7 @@ jobs:
 
             const results = JSON.parse(fs.readFileSync("/home/runner/work/openTelementryWithNextjs/openTelementryWithNextjs/lhci_reports/manifest.json"));
 
-            results.forEach((result) => {
+            results.forEach(async (result) => {
               const { summary, jsonPath } = result;
               const { audits } = details;
 
@@ -71,11 +71,12 @@ jobs:
                 { ... }
               ].join("\n");
               comments += comment + "\n" + detail + "\n";
-            });
 
-            await github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: comments
+
+              await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: comments
+              });   
             });
