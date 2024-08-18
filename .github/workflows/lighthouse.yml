@@ -35,6 +35,9 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const fs = require('fs');
+            const { Octokit } = require('@octokit/rest');
+
+            const octokit = new Octokit({ auth: `${{ secrets.GITHUB_TOKEN }}` });
 
             const results = JSON.parse(fs.readFileSync("/home/runner/work/openTelementryWithNextjs/openTelementryWithNextjs/lhci_reports/manifest.json"));
 
@@ -69,12 +72,9 @@ jobs:
               comments += comment + "\n";
             });
 
-
-            console.log(comments);
-
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: comments
-            })
+            await octokit.issues.createComment({
+              owner: repo.owner,
+              repo: repo.repo,
+              issue_number: payload.pull_request.number,
+              body: comments,
+            });
