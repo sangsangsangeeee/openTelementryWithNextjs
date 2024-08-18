@@ -36,8 +36,6 @@ jobs:
           script: |
             const fs = require('fs');
 
-            const octokit = new Octokit({ auth: `${{ secrets.GITHUB_TOKEN }}` });
-
             const results = JSON.parse(fs.readFileSync("/home/runner/work/openTelementryWithNextjs/openTelementryWithNextjs/lhci_reports/manifest.json"));
 
             let comments = "";
