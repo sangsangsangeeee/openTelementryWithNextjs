@@ -43,7 +43,9 @@ jobs:
 
             results.forEach(async (result) => {
               const { jsonPath } = result;
+
+
               const details = JSON.parse(fs.readFileSync(jsonPath));
              
-              console.lof(details);
+              console.log(details);
             });
