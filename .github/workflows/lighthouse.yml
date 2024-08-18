@@ -42,10 +42,18 @@ jobs:
             const results = JSON.parse(fs.readFileSync("/home/runner/work/openTelementryWithNextjs/openTelementryWithNextjs/lhci_reports/manifest.json"));
 
             results.forEach(async (result) => {
-              const { jsonPath } = result;
-
+              const { summary, jsonPath } = result;
 
               const details = JSON.parse(fs.readFileSync(jsonPath));
              
-              console.log(details);
+              const formatResult = (res) => Math.round(res * 100);
+
+              Object.keys(summary).forEach(
+                (key) => (summary[key] = formatResult(summary[key]))
+              );
+
+              const score = (res) => (res >= 90 ? "🟢" : res >= 50 ? "🟠" : "🔴");
+
+
+              console.log(score);
             });
