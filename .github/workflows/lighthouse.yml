@@ -3,6 +3,9 @@ name: check lighthouse
 on:
   pull_request:
     types: [opened]
+  push:
+    branches:
+      - lighthouse-test
 
 jobs:
   lighthouse:
@@ -39,5 +42,8 @@ jobs:
             const results = JSON.parse(fs.readFileSync("/home/runner/work/openTelementryWithNextjs/openTelementryWithNextjs/lhci_reports/manifest.json"));
 
             results.forEach(async (result) => {
-              console.log(result);
+              const { jsonPath } = result;
+              const details = JSON.parse(fs.readFileSync(jsonPath));
+             
+              console.lof(details);
             });
