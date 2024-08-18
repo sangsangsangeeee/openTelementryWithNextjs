@@ -69,11 +69,9 @@ jobs:
               comments += comment + "\n";
             });
 
-             core.setOutput('comments', comments)
-
-      - name: add comment
-        uses: unsplash/comment-on-pr@v1.3.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          msg: ${{ steps.format_lighthouse.outputs.comments }}
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comments
+            })
