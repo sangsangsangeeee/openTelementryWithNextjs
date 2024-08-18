@@ -43,7 +43,7 @@ jobs:
 
             let comments = "";
 
-            results.forEach(async (result) => {
+            results.forEach(async (result, index) => {
               const { summary, jsonPath } = result;
 
               const details = JSON.parse(fs.readFileSync(jsonPath));
@@ -73,6 +73,8 @@ jobs:
               comments += comment + "\n";
             });
 
+
+            console.log(comments);
 
             await github.rest.issues.createComment({
               issue_number: context.issue.number,
