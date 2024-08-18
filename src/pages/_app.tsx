@@ -2,6 +2,7 @@ import "@/styles/globals.css";
 import { getCookie } from "cookies-next";
 import FrontendTracer from "@/utils/openTelemetry/tracer";
 import type { AppProps } from "next/app";
+import Head from "next/head";
 
 declare global {
   interface Window {
@@ -21,5 +22,13 @@ declare global {
 // }
 
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return (
+    <>
+      <Head>
+        <title>hello world</title>
+        <meta content={"hello world"} name="description" />
+      </Head>
+      <Component {...pageProps} />
+    </>
+  );
 }
