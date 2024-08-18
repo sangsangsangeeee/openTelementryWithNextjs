@@ -6,11 +6,13 @@ module.exports = {
       url: ["http://localhost:3000"],
       numberOfRuns: 5,
     },
-  },
-  assert: {
-    preset: "lighthouse:no-pwa",
-  },
-  upload: {
-    target: "temporary-public-storage", // 저장소 s3 도 되려냐??
+    assert: {
+      preset: "lighthouse:no-pwa",
+    },
+    upload: {
+      target: "filesystem",
+      outputDir: "./lhci_reports",
+      reportFilenamePattern: "%%PATHNAME%%-%%DATETIME%%-report.%%EXTENSION%%",
+    },
   },
 };
