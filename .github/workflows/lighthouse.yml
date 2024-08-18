@@ -40,6 +40,9 @@ jobs:
             const fs = require('fs');
 
             const results = JSON.parse(fs.readFileSync("/home/runner/work/openTelementryWithNextjs/openTelementryWithNextjs/lhci_reports/manifest.json"));
+            const { audits } = details;
+
+            let comments = "";
 
             results.forEach(async (result) => {
               const { summary, jsonPath } = result;
@@ -54,6 +57,25 @@ jobs:
 
               const score = (res) => (res >= 90 ? "🟢" : res >= 50 ? "🟠" : "🔴");
 
+              const comment = [
+                `⚡️ Lighthouse report ${index}`,
+                `| Category | Score |`,
+                `| --- | --- |`,
+                `| ${score(summary.performance)} Performance | ${summary.performance} |`,
+                `| ${score(summary.accessibility)} Accessibility | ${summary.accessibility} |`,
+                `| ${score(summary['best-practices'])} Best practices | ${summary['best-practices']} |`,
+                `| ${score(summary.seo)} SEO | ${summary.seo} |`,
+                `| ${score(summary.pwa)} PWA | ${summary.pwa} |`,
+                `\n`,
+              ].join("\n");
 
-              console.log(score);
+              comments += comment + "\n";
             });
+
+
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comments
+            })
