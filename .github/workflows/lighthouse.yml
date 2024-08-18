@@ -28,6 +28,9 @@ jobs:
       - name: lighthouse monitoring
         run: npx lhci autorun
 
+      - name: npm install @octokit/rest
+        run: npx npm install @octokit/rest
+
       - name: record lighthouse report
         id: format_lighthouse
         uses: actions/github-script@v7
