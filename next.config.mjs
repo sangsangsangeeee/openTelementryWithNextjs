@@ -1,3 +1,12 @@
+import dotEnv from "dotenv";
+import dotenvExpand from "dotenv-expand";
+
+const myEnv = dotEnv.config({
+  path: "./.env",
+});
+
+dotenvExpand.expand(myEnv);
+
 const {
   AD_SERVICE_ADDR = "",
   CART_SERVICE_ADDR = "",
@@ -15,10 +24,22 @@ const {
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  output: "standalone",
   experimental: {
     instrumentationHook: true,
   },
   distDir: "build",
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback.http2 = false;
+      config.resolve.fallback.tls = false;
+      config.resolve.fallback.net = false;
+      config.resolve.fallback.dns = false;
+      config.resolve.fallback.fs = false;
+    }
+
+    return config;
+  },
   env: {
     AD_SERVICE_ADDR,
     CART_SERVICE_ADDR,

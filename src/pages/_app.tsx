@@ -1,6 +1,6 @@
 import "@/styles/globals.css";
 import { getCookie } from "cookies-next";
-import FrontendTracer from "@/utils/openTelemetry/tracer";
+import frontendTracer from "@/utils/telemetry/frontendTracer";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 
@@ -15,11 +15,11 @@ declare global {
   }
 }
 
-// if (typeof window !== "undefined") {
-//   const collector = getCookie("otelCollectorUrl")?.toString() || "";
+if (typeof window !== "undefined") {
+  const collector = getCookie("otelCollectorUrl")?.toString() || "";
 
-//   FrontendTracer(collector);
-// }
+  frontendTracer(collector);
+}
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
