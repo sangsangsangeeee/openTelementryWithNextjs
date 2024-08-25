@@ -43,7 +43,7 @@ function Page() {
             name="password"
             onChange={onChangeInput}
           />
-          <button type="submit" className="hello ">
+          <button type="button" className="hello ">
             submit
           </button>
         </form>

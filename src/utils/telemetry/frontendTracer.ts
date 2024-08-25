@@ -11,6 +11,8 @@ import {
 } from "@opentelemetry/sdk-trace-web";
 import { ZoneContextManager } from "@opentelemetry/context-zone";
 import { SEMRESATTRS_SERVICE_NAME } from "@opentelemetry/semantic-conventions";
+import { UserInteractionInstrumentation } from "@opentelemetry/instrumentation-user-interaction";
+
 import {
   CompositePropagator,
   W3CBaggagePropagator,
@@ -68,6 +70,16 @@ const frontendTracer = (collectorString: string) => {
           applyCustomAttributesOnSpan(span) {
             span.setAttribute("app.synthetic_request", "synthetic_request");
           },
+        },
+      }),
+      new UserInteractionInstrumentation({
+        eventNames: ["click", "submit", "change"],
+        shouldPreventSpanCreation: (_, element, span) => {
+          span.setAttribute("target.id", element.id);
+          span.setAttribute("target.text", element.textContent || "");
+          span.setAttribute("target.className", element.className || "");
+
+          return false;
         },
       }),
     ],
