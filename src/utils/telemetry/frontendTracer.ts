@@ -5,6 +5,7 @@ import {
 } from "@opentelemetry/resources";
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
 import {
+  BatchSpanProcessor,
   ConsoleSpanExporter,
   SimpleSpanProcessor,
   WebTracerProvider,
@@ -19,6 +20,7 @@ import {
   W3CTraceContextPropagator,
 } from "@opentelemetry/core";
 import { getWebAutoInstrumentations } from "@opentelemetry/auto-instrumentations-web";
+import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
 
 const { NEXT_PUBLIC_OTEL_SERVICE_NAME = "frontend" } = process.env;
 
@@ -37,16 +39,19 @@ const frontendTracer = (collectorString: string) => {
 
   provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
 
-  //   provider.addSpanProcessor(
-  //     new BatchSpanProcessor(
-  //       new OTLPTraceExporter({
-  //         url: NEXT_PUBLIC_OTEL_EXPORTER_OTLP_TRACES_ENDPOINT || collectorString || 'http://localhost:4318/v1/traces',
-  //       }),
-  //       {
-  //         scheduledDelayMillis: 500,
-  //       }
-  //     )
-  //   );
+  provider.addSpanProcessor(
+    new BatchSpanProcessor(
+      new OTLPTraceExporter({
+        url: "http://localhost:4318/v1/traces",
+        headers: {
+          credentials: "include",
+        },
+      })
+      // {
+      //   scheduledDelayMillis: 500,
+      // }
+    )
+  );
 
   const contextManager = new ZoneContextManager();
 
