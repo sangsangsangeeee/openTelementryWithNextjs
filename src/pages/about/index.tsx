@@ -14,14 +14,13 @@ function Page() {
     setLogin((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const onSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
+  const onSubmit = (e: any) => {
     e.preventDefault();
-    console.info("login params", login);
+    // alert("로그인 성공");
   };
 
   return (
     <section>
-      <h1>hello world</h1>
       <h2>hello world</h2>
       <h3>hello world</h3>
       <h4>hello world</h4>
@@ -29,24 +28,26 @@ function Page() {
       <h6 onClick={onClickH6}>hello world</h6>
 
       <div>
-        <form onSubmit={onSubmit}>
-          <input
-            placeholder="email"
-            value={login.email}
-            name={"email"}
-            onChange={onChangeInput}
-          />
-          <input
-            type="password"
-            placeholder="password"
-            value={login.password}
-            name="password"
-            onChange={onChangeInput}
-          />
-          <button type="button" className="hello ">
-            submit
-          </button>
-        </form>
+        {/* <form onSubmit={onSubmit}> */}
+        <input
+          placeholder="email"
+          value={login.email}
+          name={"email"}
+          className="text-black"
+          onChange={onChangeInput}
+        />
+        <input
+          type="password"
+          placeholder="password"
+          value={login.password}
+          name="password"
+          className="text-black"
+          onChange={onChangeInput}
+        />
+        <button onClick={onSubmit} type="button" className="hello">
+          submit
+        </button>
+        {/* </form> */}
       </div>
     </section>
   );

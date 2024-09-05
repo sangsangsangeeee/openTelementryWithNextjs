@@ -1,9 +1,23 @@
 module.exports = {
   ci: {
     collect: {
+      puppeteerScript: "./puppeteerScript.cjs",
+      puppeteerLaunchOptions: {
+        headless: false,
+        args: [
+          "--show-paint-rects",
+          "--allow-no-sandbox-job",
+          "--allow-sandbox-debugging",
+          "--no-sandbox",
+          "--disable-gpu",
+          "--disable-gpu-sandbox",
+          "--display",
+        ],
+      },
+      disableStorageReset: true,
+      numberOfRuns: 3,
       startServerCommand: "npx npm run start",
       url: ["http://localhost:3000"],
-      numberOfRuns: 1,
     },
     assert: {
       preset: "lighthouse:no-pwa",
